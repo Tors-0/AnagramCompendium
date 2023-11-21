@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class Anagram1 {
     public static void main(String[] args) {
+        long startTime = System.nanoTime();
         if (args.length < 2) {
             System.out.println("not enough arguments detected");
             System.exit(0);
@@ -61,7 +62,26 @@ public class Anagram1 {
             output2 = false;
             output1 = false;
         }
+        long endTime = System.nanoTime();
         System.out.printf("'%s' is%s an anagram of '%s'\n", s1, output1 ? "" : "n't", s2);
         System.out.printf("If you consider case, '%s' is%s an anagram of '%s'\n", s1, output2 ? "" : "n't", s2);
+        System.out.printf("Testing took about %s.", formatNanoSec(endTime - startTime));
+    }
+    private static String formatNanoSec(double nano) {
+        short counter = 0;
+        while (nano >= 1000) {
+            if (counter > 3) {
+                break;
+            }
+            counter++;
+            nano /= 1000f;
+        }
+        String time = String.valueOf((float) Math.round(nano * 100f) / 100f);
+        return switch (counter) {
+            case 0 -> time + " nanoseconds";
+            case 1 -> time + " microseconds";
+            case 2 -> time + " milliseconds";
+            default -> time + " seconds";
+        };
     }
 }
